@@ -1,7 +1,7 @@
 import json
 import re
 import os
-import requests
+import translator
 
 # print(os.path.abspath("."))
 _data_file = os.getcwd() + '/words_data.txt'
@@ -38,17 +38,9 @@ def ls_word(word):
 
 while True:
     string = str(input("请输入一段要翻译的文字："))
-    data = {
-        'doctype': 'json',
-        'type': 'AUTO',
-        'smartresult' : 'dict',
-        'i': string
-    }
-    url = "http://fanyi.youdao.com/translate"
-    # url = "http://fanyi.youdao.com/translate_o"
-    r = requests.get(url, params=data)
-    result = r.json()
-    print(result)
+    result = translator.translate(string)
+    for x in result:
+        print(x)
 
     cmd = input(">>> ")
     if cmd == 'exit':
