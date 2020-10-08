@@ -1,5 +1,10 @@
 import json
 import re
+import os
+import requests
+
+# print(os.path.abspath("."))
+_data_file = os.getcwd() + '/words_data.txt'
 
 
 def add():
@@ -12,19 +17,19 @@ def add():
         'cn': cn,
         'tags': []
     }
-    with open('words/words_data.txt', 'at', encoding='utf-8') as f:
+    with open(_data_file, 'at', encoding='utf-8') as f:
         f.write(json.dumps(data, ensure_ascii=False) + '\n')
 
 
 def ls():
-    with open('words/words_data.txt', 'rt', encoding='utf-8') as f:
+    with open(_data_file, 'rt', encoding='utf-8') as f:
         for line in f:
             currData = json.loads(line)
             print(currData['cn'])
 
 
 def ls_word(word):
-    with open('words/words_data.txt', 'rt', encoding='utf-8') as f:
+    with open(_data_file, 'rt', encoding='utf-8') as f:
         for line in f:
             currData = json.loads(line)
             if currData['en'] == word:
@@ -32,10 +37,22 @@ def ls_word(word):
 
 
 while True:
+    string = str(input("请输入一段要翻译的文字："))
+    data = {
+        'doctype': 'json',
+        'type': 'AUTO',
+        'smartresult' : 'dict',
+        'i': string
+    }
+    url = "http://fanyi.youdao.com/translate"
+    # url = "http://fanyi.youdao.com/translate_o"
+    r = requests.get(url, params=data)
+    result = r.json()
+    print(result)
+
     cmd = input(">>> ")
     if cmd == 'exit':
         break
-
     if cmd == 'add':
         add()
     elif cmd == 'ls':
