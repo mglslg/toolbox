@@ -5,3 +5,4 @@
 {"key": "iterable", "content": ["adj. 可迭代的"], "tags": []}
 {"key": "arbitrary", "content": ["adj. [数] 任意的；武断的；专制的"], "tags": []}
 {"key": "starred", "content": ["adj. 担任主角的；用星装饰的；用星号标明的；受命运支配的", "v. 使担任主角（star的过去式）；用星（形物）装饰"], "tags": []}
+{"key": "transient", "content": ["adj. 短暂的；路过的", "n. 瞬变现象；过往旅客；候鸟"], "tags": []}

@@ -1,18 +1,7 @@
 import json
 import re
-import os
 import translator
-
-# print(os.path.abspath("."))
-_data_file = os.getcwd() + '/words_data.txt'
-
-
-def key_exists(key):
-    with open(_data_file, 'rt', encoding='utf-8') as f:
-        for line in f:
-            curr_data = json.loads(line)
-            if key == curr_data['key']:
-                return True
+import data_operator
 
 
 def add():
@@ -21,7 +10,7 @@ def add():
         if en == 'EOF':
             break
 
-        if key_exists(en):
+        if data_operator.exists(en):
             print("当前单词已存在")
             continue
 
@@ -37,12 +26,11 @@ def add():
             'content': cn,
             'tags': []
         }
-        with open(_data_file, 'at', encoding='utf-8') as f:
-            f.write(json.dumps(data, ensure_ascii=False) + '\n')
+        data_operator.add(data)
 
 
 def add_word(word):
-    if key_exists(word):
+    if data_operator.exists(word):
         print("当前单词已存在")
         return
 
@@ -58,23 +46,18 @@ def add_word(word):
         'content': cn,
         'tags': []
     }
-    with open(_data_file, 'at', encoding='utf-8') as f:
-        f.write(json.dumps(data, ensure_ascii=False) + '\n')
+    data_operator.add(data)
 
 
 def ls():
-    with open(_data_file, 'rt', encoding='utf-8') as f:
-        for line in f:
-            curr_data = json.loads(line)
-            print(curr_data)
+    rs = data_operator.find_all()
+    for e in rs:
+        print(e)
 
 
 def ls_word(word):
-    with open(_data_file, 'rt', encoding='utf-8') as f:
-        for line in f:
-            curr_data = json.loads(line)
-            if curr_data['key'] == word:
-                print(curr_data)
+    rs = data_operator.find(word)
+    print(rs)
 
 
 def exe_cmd_2param(command, fn):
@@ -87,12 +70,7 @@ def exe_cmd_2param(command, fn):
 
 
 def start():
-    curr_words = []
-    with open(_data_file, 'rt', encoding='utf-8') as f:
-        for line in f:
-            curr_data = json.loads(line)
-            curr_words.append(curr_data)
-
+    curr_words = data_operator.find_all()
     for x in curr_words:
         print(x['content'])
         for i in range(0, 3):
