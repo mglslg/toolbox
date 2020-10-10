@@ -1,5 +1,5 @@
-import json
 import re
+import os
 import translator
 import data_operator
 
@@ -76,6 +76,7 @@ def start():
         for i in range(0, 3):
             input_word = input('第' + str(i) + '次:')
             if x['key'] == input_word:
+                os.system('clear')
                 continue
             else:
                 i = 0
@@ -84,6 +85,9 @@ def start():
 
 
 if __name__ == '__main__':
+    print("aaa")
+    os.system("clear")
+
     while True:
         cmd = input(">>> ")
         if cmd == 'exit':
