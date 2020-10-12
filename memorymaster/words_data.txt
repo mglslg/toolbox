@@ -1,4 +1,2 @@
-{"key": "assignment", "content": ["n. 分配；任务；作业；功课"], "tags": []}
-{"key": "arbitrary", "content": ["adj. [数] 任意的；武断的；专制的"], "tags": []}
-{"key": "starred", "content": ["adj. 担任主角的；用星装饰的；用星号标明的；受命运支配的", "v. 使担任主角（star的过去式）；用星（形物）装饰"], "tags": []}
-{"key": "transient", "content": ["adj. 短暂的；路过的", "n. 瞬变现象；过往旅客；候鸟"], "tags": []}
+{"key": "arbitrary", "content": ["adj. [数] 任意的；武断的；专制的"], "tags": [], "createTime": "2020-10-12 11:44:34"}
+{"key": "look", "content": ["vt. 看；期待；注意；面向；看上去像", "vi. 看；看起来；注意；面向", "n. 看；样子；面容", "n. (Look)人名；(瑞典)洛克；(英)卢克"], "tags": [], "isPassed": false, "createTime": "2020-10-12 13:22:43", "nextTime": "2020-10-12 13:22:43"}

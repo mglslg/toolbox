@@ -2,12 +2,13 @@ import re
 import os
 import translator
 import data_operator
+import datetime
 
 
 def add_from_input():
     while True:
         en = input("请输入英文:")
-        if en == 'EOF':
+        if en == '/quit':
             break
 
         if data_operator.exists(en):
@@ -21,10 +22,14 @@ def add_from_input():
 
         print(cn)
 
+        curr_time = datetime.datetime.now()
         data = {
             'key': en,
             'content': cn,
-            'tags': []
+            'tags': [],
+            'isPassed': False,
+            'createTime': curr_time.strftime("%Y-%m-%d %H:%M:%S"),
+            'nextTime': curr_time.strftime("%Y-%m-%d %H:%M:%S")
         }
         data_operator.add(data)
 
@@ -60,6 +65,10 @@ def ls(word=None):
     else:
         rs = data_operator.find(word)
         print(rs)
+
+
+def delete(key):
+    data_operator.delete(key)
 
 
 def start(num_str='3'):
@@ -105,11 +114,14 @@ if __name__ == '__main__':
         else:
             ls_w_match = re.search("ls -w\\s+\\w+", cmd)
             add_w_match = re.search("add -w\\s+\\w+", cmd)
+            del_w_match = re.search("delete -w\\s+\\w+", cmd)
             start_n_match = re.search("start -n\\s+\\d+", cmd)
             if ls_w_match:
                 exe_cmd_2param(cmd, ls)
             elif add_w_match:
                 exe_cmd_2param(cmd, add)
+            elif del_w_match:
+                exe_cmd_2param(cmd, delete)
             elif start_n_match:
                 exe_cmd_2param(cmd, start)
             else:

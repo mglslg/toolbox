@@ -11,7 +11,14 @@ def add(data):
 
 
 def delete(key):
-    print('delete')
+    with open(_data_file, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    with open(_data_file, "w", encoding="utf-8") as f_w:
+        for line in lines:
+            curr_data = json.loads(line)
+            if curr_data['key'] == key:
+                continue
+            f_w.write(line)
 
 
 def update(data):
