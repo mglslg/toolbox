@@ -4,7 +4,7 @@ import translator
 import data_operator
 
 
-def add():
+def add_from_input():
     while True:
         en = input("请输入英文:")
         if en == 'EOF':
@@ -29,35 +29,57 @@ def add():
         data_operator.add(data)
 
 
-def add_word(word):
-    if data_operator.exists(word):
-        print("当前单词已存在")
-        return
+def add(word=None):
+    if word is not None:
+        if data_operator.exists(word):
+            print("当前单词已存在")
+            return
 
-    cn = translator.translate(word)
-    if len(cn) == 0:
-        print("单词拼写错误")
-        return
+        cn = translator.translate(word)
+        if len(cn) == 0:
+            print("单词拼写错误")
+            return
 
-    print(cn)
+        print(cn)
 
-    data = {
-        'key': word,
-        'content': cn,
-        'tags': []
-    }
-    data_operator.add(data)
-
-
-def ls():
-    rs = data_operator.find_all()
-    for e in rs:
-        print(e)
+        data = {
+            'key': word,
+            'content': cn,
+            'tags': []
+        }
+        data_operator.add(data)
+    else:
+        add_from_input()
 
 
-def ls_word(word):
-    rs = data_operator.find(word)
-    print(rs)
+def ls(word=None):
+    if word is None:
+        rs = data_operator.find_all()
+        for e in rs:
+            print(e)
+    else:
+        rs = data_operator.find(word)
+        print(rs)
+
+
+def start(num_str='3'):
+    curr_words = data_operator.find_all()
+    for x in curr_words:
+        i = 1
+        n = int(num_str)
+        while i <= n:
+            print(x['content'])
+            input_word = input('还需输入' + str(n - i + 1) + '次:')
+            if x['key'] == input_word:
+                # TERM=xterm-color
+                os.system('clear')
+                i = i + 1
+                continue
+            else:
+                print('单词拼写错误,大侠请重新来过!')
+                i = 1
+                continue
+    print('战斗胜利!')
 
 
 def exe_cmd_2param(command, fn):
@@ -67,22 +89,6 @@ def exe_cmd_2param(command, fn):
     else:
         target_word = results[2]
         fn(target_word)
-
-
-def start():
-    curr_words = data_operator.find_all()
-    for x in curr_words:
-        print(x['content'])
-        for i in range(0, 3):
-            input_word = input('第' + str(i) + '次:')
-            if x['key'] == input_word:
-                # TERM=xterm-color
-                os.system('clear')
-                continue
-            else:
-                i = 0
-                print('lalalalala', i)
-                continue
 
 
 if __name__ == '__main__':
@@ -99,9 +105,12 @@ if __name__ == '__main__':
         else:
             ls_w_match = re.search("ls -w\\s+\\w+", cmd)
             add_w_match = re.search("add -w\\s+\\w+", cmd)
+            start_n_match = re.search("start -n\\s+\\d+", cmd)
             if ls_w_match:
-                exe_cmd_2param(cmd, ls_word)
+                exe_cmd_2param(cmd, ls)
             elif add_w_match:
-                exe_cmd_2param(cmd, add_word)
+                exe_cmd_2param(cmd, add)
+            elif start_n_match:
+                exe_cmd_2param(cmd, start)
             else:
                 print("command not found: " + cmd)

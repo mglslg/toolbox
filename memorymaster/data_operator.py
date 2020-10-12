@@ -44,4 +44,8 @@ def exists(key):
 
 
 def get_by_key(key):
-    print('get_by_key')
+    with open(_data_file, 'rt', encoding='utf-8') as f:
+        for line in f:
+            curr_data = json.loads(line)
+            if key == curr_data['key']:
+                return curr_data
