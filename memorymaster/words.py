@@ -111,6 +111,9 @@ if __name__ == '__main__':
             ls()
         elif cmd == 'start':
             start()
+        elif cmd == 'grep':
+            rs=os.system('grep look words_data.txt')
+            print(rs)
         else:
             ls_w_match = re.search("ls -w\\s+\\w+", cmd)
             add_w_match = re.search("add -w\\s+\\w+", cmd)
