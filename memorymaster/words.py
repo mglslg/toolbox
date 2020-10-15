@@ -3,6 +3,7 @@ import os
 import translator
 import data_operator
 import datetime
+from mmdb import EnDict
 
 
 def add_from_input():
@@ -20,23 +21,19 @@ def add_from_input():
             print("单词拼写错误")
             continue
 
-        print(cn)
+        word = EnDict.get_or_none(key=en)
 
-        curr_time = datetime.datetime.now()
-        data = {
-            'key': en,
-            'content': cn,
-            'tags': [],
-            'isPassed': False,
-            'createTime': curr_time.strftime("%Y-%m-%d %H:%M:%S"),
-            'nextTime': curr_time.strftime("%Y-%m-%d %H:%M:%S")
-        }
-        data_operator.add(data)
+        if word is None:
+            print(cn)
+            dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now())
+            dao.save()
+        else:
+            print("当前单词已存在")
 
 
 def add(word=None):
     if word is not None:
-        if data_operator.exists(word):
+        if EnDict.get_or_none(key=word) is not None:
             print("当前单词已存在")
             return
 
@@ -47,24 +44,21 @@ def add(word=None):
 
         print(cn)
 
-        data = {
-            'key': word,
-            'content': cn,
-            'tags': []
-        }
-        data_operator.add(data)
+        dao = EnDict.create(key=word, content=cn, create_time=datetime.datetime.now())
+        dao.save()
     else:
         add_from_input()
 
 
 def ls(word=None):
     if word is None:
-        rs = data_operator.find_all()
+        rs = EnDict.select(EnDict.key, EnDict.content)
         for e in rs:
-            print(e)
+            print(e.key, e.content)
     else:
-        rs = data_operator.find(word)
-        print(rs)
+        rs = EnDict.select().where(EnDict.key == word)
+        for e in rs:
+            print(e.key, e.content)
 
 
 def delete(key):
@@ -112,7 +106,7 @@ if __name__ == '__main__':
         elif cmd == 'start':
             start()
         elif cmd == 'grep':
-            rs=os.system('grep look words_data.txt')
+            rs = os.system('grep look words_data.txt')
             print(rs)
         else:
             ls_w_match = re.search("ls -w\\s+\\w+", cmd)
