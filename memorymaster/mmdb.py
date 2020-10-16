@@ -17,10 +17,11 @@ class BaseModel(Model):
 class EnDict(BaseModel):
     content = CharField(null=True)
     create_time = DateTimeField(null=True)
-    is_passed = IntegerField(null=True)
+    is_open = IntegerField(null=True)
     key = CharField(primary_key=True)
     pass_time = DateTimeField(null=True)
     show_time = DateTimeField(null=True)
+    pass_count = IntegerField(null=True)
 
     class Meta:
         table_name = 'en_dict'

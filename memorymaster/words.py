@@ -25,7 +25,7 @@ def add_from_input():
 
         if word is None:
             print(cn)
-            dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now())
+            dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now(), show_time=datetime.datetime.now())
             dao.save()
         else:
             print("当前单词已存在")
@@ -44,7 +44,8 @@ def add(word=None):
 
         print(cn)
 
-        dao = EnDict.create(key=word, content=cn, create_time=datetime.datetime.now())
+        now = datetime.datetime.now()
+        dao = EnDict.create(key=word, content=cn, create_time=now, show_time=now)
         dao.save()
     else:
         add_from_input()
@@ -52,37 +53,70 @@ def add(word=None):
 
 def ls(word=None):
     if word is None:
-        rs = EnDict.select(EnDict.key, EnDict.content)
+        rs = EnDict.select()
         for e in rs:
-            print(e.key, e.content)
+            print(e.key, e.content, e.create_time)
     else:
         rs = EnDict.select().where(EnDict.key == word)
         for e in rs:
-            print(e.key, e.content)
+            print(e.key, e.content, e.create_time)
 
 
 def delete(key):
-    data_operator.delete(key)
+    EnDict.delete().where(EnDict.key == key).execute()
 
 
 def start(num_str='3'):
-    curr_words = data_operator.find_all()
+    # 注意这里peewee的逻辑操作符只有【& | == ~ 】,什么is not之类都不能用！
+    curr_words = EnDict.select().where((EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now()))
     for x in curr_words:
         i = 1
         n = int(num_str)
         while i <= n:
-            print(x['content'])
+            print(x.content)
             input_word = input('还需输入' + str(n - i + 1) + '次:')
-            if x['key'] == input_word:
+            if x.key == input_word:
                 # TERM=xterm-color
                 os.system('clear')
                 i = i + 1
+                if i == n:
+                    do_pass(x)
                 continue
             else:
                 print('单词拼写错误,大侠请重新来过!')
                 i = 1
                 continue
     print('战斗胜利!')
+
+
+def do_pass(old):
+    now = datetime.datetime.now()
+    old_count = int(old.pass_count)
+    is_open = True
+    show_time = old.show_time
+
+    if old_count == 0:
+        show_time = now + datetime.timedelta(days=1)
+    elif old_count == 1:
+        show_time = now + datetime.timedelta(days=1)
+    elif old_count == 2:
+        show_time = now + datetime.timedelta(days=3)
+    elif old_count == 3:
+        show_time = now + datetime.timedelta(days=5)
+    elif old_count == 4:
+        show_time = now + datetime.timedelta(days=10)
+    elif old_count == 5:
+        show_time = now + datetime.timedelta(days=30)
+    else:
+        is_open = False
+
+    new = {'is_open': is_open,
+           'pass_time': now,
+           'show_time': show_time,
+           'pass_count': old_count + 1
+           }
+
+    EnDict.update(new).where(EnDict.key == old.key).execute()
 
 
 def exe_cmd_2param(command, fn):
