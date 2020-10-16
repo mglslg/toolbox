@@ -1,22 +1,23 @@
 import re
 import os
 import translator
-import data_operator
 import datetime
 from mmdb import EnDict
 
 
 def add_from_input():
     while True:
-        en = input("请输入英文:")
-        if en == '/quit':
+        en = input("请输入英文:").strip()
+        if en == '/q' or en == '/quit':
             break
 
-        if data_operator.exists(en):
+        if EnDict.get_or_none(key=en) is not None:
             print("当前单词已存在")
             continue
 
-        cn = translator.translate(en)
+        rs = translator.translate(en)
+        cn = rs[0]
+        voice = rs[1]
         if len(cn) == 0:
             print("单词拼写错误")
             continue
@@ -25,7 +26,8 @@ def add_from_input():
 
         if word is None:
             print(cn)
-            dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now(), show_time=datetime.datetime.now())
+            dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now(),
+                                show_time=datetime.datetime.now(), voice=voice)
             dao.save()
         else:
             print("当前单词已存在")
@@ -33,6 +35,7 @@ def add_from_input():
 
 def add(word=None):
     if word is not None:
+        word = word.strip()
         if EnDict.get_or_none(key=word) is not None:
             print("当前单词已存在")
             return
@@ -55,11 +58,11 @@ def ls(word=None):
     if word is None:
         rs = EnDict.select()
         for e in rs:
-            print(e.key, e.content, e.create_time)
+            print(e.key, e.content)
     else:
         rs = EnDict.select().where(EnDict.key == word)
         for e in rs:
-            print(e.key, e.content, e.create_time)
+            print(e.key, e.content)
 
 
 def delete(key):
@@ -74,7 +77,14 @@ def start(num_str='3'):
         n = int(num_str)
         while i <= n:
             print(x.content)
-            input_word = input('还需输入' + str(n - i + 1) + '次:')
+            input_word = input('还需输入' + str(n - i + 1) + '次:').strip()
+            if input_word == 'fuck':
+                os.system('clear')
+                print('[', x.key, ']')
+                i = 1
+                continue
+            if input_word == '/q' or input_word == '/quit':
+                return
             if x.key == input_word:
                 # TERM=xterm-color
                 os.system('clear')
@@ -131,7 +141,7 @@ def exe_cmd_2param(command, fn):
 if __name__ == '__main__':
     while True:
         cmd = input(">>> ")
-        if cmd == 'exit':
+        if cmd == 'quit':
             break
         if cmd == 'add':
             add()
@@ -139,9 +149,6 @@ if __name__ == '__main__':
             ls()
         elif cmd == 'start':
             start()
-        elif cmd == 'grep':
-            rs = os.system('grep look words_data.txt')
-            print(rs)
         else:
             ls_w_match = re.search("ls -w\\s+\\w+", cmd)
             add_w_match = re.search("add -w\\s+\\w+", cmd)

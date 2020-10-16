@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 def translate(word):
     result = []
+    voice = []
     url = 'http://dict.youdao.com/search'
     data = {
         'q': word,
@@ -13,6 +14,7 @@ def translate(word):
     content = str(html, 'utf-8')
     soup = BeautifulSoup(content, 'lxml')
     trans_container = soup.find('div', {"class": "trans-container"})
+    phonetic_container = soup.find('div', {"id": "phrsListTab"})
 
     if trans_container is None:
         return result
@@ -21,11 +23,15 @@ def translate(word):
     for x in translated:
         result.append(x.text)
 
-    return result
+    phonetic = phonetic_container.findAll('span', {"class": "phonetic"})
+    for y in phonetic:
+        voice.append(y.text)
+
+    return result, voice
 
 
 if __name__ == '__main__':
-    rs = translate('transladfsdfte')
+    rs = translate('task')
+    print(rs)
     if len(rs) != 0:
         print(rs[0])
-
