@@ -23,6 +23,7 @@ class EnDict(BaseModel):
     show_time = DateTimeField(null=True)
     pass_count = IntegerField(null=True)
     voice = CharField(null=True)
+    example = CharField(null=True)
 
     class Meta:
         table_name = 'en_dict'
