@@ -68,6 +68,7 @@ if __name__ == '__main__':
 
 if __name__ == '__main__1':
     while True:
+        print("欢迎来到嘎子的工具箱")
         print('1. lalalala')
         print('2. heiheiheihei')
         select_menu = input("请选择菜单:")
