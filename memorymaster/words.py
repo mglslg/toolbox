@@ -1,4 +1,3 @@
-import re
 import os
 import translator
 import datetime
@@ -198,7 +197,7 @@ def do_pass(old):
     EnDict.update(new).where(EnDict.key == old.key).execute()
 
 
-if __name__ == '__main__':
+def main():
     cmd_mapping = {
         'add': add,
         'ls': ls,
@@ -207,3 +206,7 @@ if __name__ == '__main__':
         'rm': remove
     }
     cl.run(cmd_mapping)
+
+
+if __name__ == '__main__':
+    main()
