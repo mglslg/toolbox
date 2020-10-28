@@ -1,0 +1,145 @@
+financalResources	socialSecurityLastThreeMonth	近三个月社保截屏
+financalResources	accumulationFundLastThreeMonth	近三个月公积金截屏
+addressResources	hydropowerBill	水电缴费单
+addressResources	wideBandBill	宽带缴费单
+addressResources	otherAddrProof	其他住址证明
+addressResources	rentAgreement	房屋租赁合同
+idCardIdentificationPictures	idCardFront	身份证正面
+idCardIdentificationPictures	idCartBack	身份证反面
+idCardIdentificationPictures	idCardInHand	本人手持照
+idCardIdentificationPictures	studentCard	学生证第一二页
+idCardIdentificationPictures	chsi	学信网截图
+idCardIdentificationPictures	imageBest	活体最佳
+idCardIdentificationPictures	imageEnv	活体环境
+idCardIdentificationPictures	driverLicense	驾照
+idCardIdentificationPictures	householdRegister	户口簿
+aaaaaa 	householdBook	户口本
+idCardIdentificationPictures	marriageProof	婚姻证明
+idCardIdentificationPictures	businessLicence	企业营业执照
+
+aaaaaa    loanOtherDetails   借款人其他资料
+
+workIdentificationPictures	paperWorkProof	纸质工作证明
+workIdentificationPictures	workAggreement	劳动合同
+workIdentificationPictures	workCard	工牌
+incomeIdentificationPictures	bankHistory	银行流水
+financalResources	financeProofLastThreeMonth	近三月理财证明
+financalResources	otherFinancialProof	其他财务证明
+financalResources	selfPayVouc	首付凭证
+financalResources	property	房产证
+financalResources	withCar	借款人与车辆合照
+financalResources	policy	保单
+financalResources	carPurchaseContract	购车合同
+financalResources	carBody	车身照片
+financalResources	carNameplate	车身铭牌
+financalResources	carDocument	车辆单证
+financalResources	carRegistration	车辆登记证
+financalResources	carLicense	车辆行驶证
+financalResources	bankLoanContract	银行贷款合同
+financalResources	houseReal	房产实地照片
+financalResources	businessReal	经营地实地照片
+financalResources	realEstateCertificate	不动产权证
+financalResources	stateLandCertificate	国有土地证
+financalResources   firstMortgageJR    原一抵流水
+financalResources   repurchaseRecord    回购转账记录
+financalResources   mortgageOtherDetails    抵押物其他资料
+
+financalResources	bankCardFront	放款银行卡正面照片
+financalResources	withholdBankCard	划扣银行卡照片
+
+financalResources	mortgageStatusInfo	抵押物状态信息表
+financalResources	mortgagestatement	同意抵押声明
+others	applyTableZF    申请表(资方)
+
+
+creditResources	creditLetterZFDB	征信授权书(资方担保)
+creditResources	easyAuditReport	简版征信报告
+creditResources	creditLetter	征信授权书
+creditResources	borrowerInfoLetter	个人信息查询及使用授权书
+creditResources	creditLetterPDF	征信授权书PDF（渤海专用）
+creditResources	creditLetterZF	资方征信查询授权书
+creditResources	creditLetterHoldZF	资方征信查询授权书(手持)
+creditResources	orgCreditLetter	企业征信书
+creditCardResources	creditCardFront	信用卡正面
+creditCardResources	creditCardBack	信用卡反面
+creditCardResources	creditCardBillLastMonth	近一月账单截屏
+creditCardResources	antGroupScore	芝麻信用分截图
+
+
+
+
+others	prodServAgreement	产品服务协议
+others	withdrawApply	提现申请单
+others	loanApplyForm	借款申请单
+others	other	其他
+others	evaluationReport	评估报告
+others	checkInReceipt	入押回执
+others	notarialReceipt	公证回执单
+others	mortgageContract	抵押合同
+others	commissDebitAuth	委托扣款授权书
+others	loanContract	贷款合同
+others	contractAppendix	合同附件
+others	contractSign	合同签约照
+others	carSalesInvoice	车辆销售发票
+others	buyCarInvoice	购车发票
+others	repayAccountChange	还款账户变更表
+others	guaranteeLetter	担保函
+others	transferInstruction	划转说明书
+others	faceViewPicture	面审图片
+others	industrialResearch	产调图片
+others	loanDocuments	放款凭证
+others	authCommitConfirm	授权委托和确认书
+others	netQueryInfo	网查信息
+others	otherRightsCertificate	他项权证
+others	increaseCreditAssets	增信资产
+others	notarialCertificate	公证书
+others	loanPurposeDeclaration	借款用途声明书
+others	clearedProof	结清证明
+others	loanConfirmation	借款确认书
+others	trustFinServiceAgree	委托融资服务协议
+others  commissCollectionAgree  委托收款协议
+others	shareholderResolution	股东决议
+others	powerOfAttorney	授权委托书
+others	powerOfAttorneyAgree	授权及委托协议
+others	deliveryAddrConfirm	送达地址确认书
+others	confirmation	确认函
+others	commissCollectPayDeclare	委托代收代付声明
+others	gdrStatement	共借人声明
+others	actualControlCertification	实控人证明
+others	nonUniqueHouseStatement	非唯一住房声明
+others	placementStatement	安置声明
+others	abandonPreemptivePower	放弃优先购买权承诺书
+others	transferRightsNotice	权利转移通知书
+others	purchaseSalesContract	购销合同
+others	reviewData	复议资料
+others	dueDiligenceReport  尽调报告
+
+others	loanReviewAgreementLetter   贷审会同意函
+
+others	tenantStatement 承租人声明
+
+others	interviewPicture    面签照片
+
+others  front   商户门头照
+
+
+others  cashier     商户收银台照
+
+
+others	receiverAccount     收款方账户信息
+
+others	controlCardPicture	控卡控证照片
+afterloanPictures	afterHouseReal	贷后房产实地照片
+archivesFile	propertyWarrant	档案房产证照片
+archivesFile	territoryWarrant	档案国土证照片
+archivesFile	encumbranceWarrant	档案他项照片
+archivesFile	notarizationWarrant	档案公证书照片
+others	checkOpinionPicture	初审稽核图片
+others	goHousecheckOpinionPicture	下户稽核图片
+others	finalCheckOpinionPicture	终审稽核图片
+others	finalCCheckOpinionPicture	终审复核稽核图片
+others	deratePicture	减免资料图片
+others	salaryCertificate	发放工资证明
+others	officeUseCertificate	办公用途证明
+others	otherConsumptionCertificate	其他消费证明
+others	companyFinancialReport	公司财报
