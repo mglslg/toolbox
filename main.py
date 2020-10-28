@@ -1,5 +1,12 @@
-from cltable import dividing_line
-from memorymaster import words
+import sys
+import os
+
+# print("当前的工作目录：", os.getcwd())
+sys.path.append("/Users/suolongga/PycharmProjects/toolbox/memorymaster")
+# print("python搜索模块的路径集合", sys.path)
+
+from cltable import *
+from memorymaster import *
 
 if __name__ == '__main__':
     while True:
