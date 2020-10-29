@@ -1,5 +1,5 @@
 import os
-import translator
+from translate import translator
 import datetime
 from mmdb import EnDict
 import json

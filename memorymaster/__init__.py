@@ -1,1 +1,1 @@
-__all__ = ['mmdb', 'translator', 'words']
+__all__ = ['mmdb', 'words']
