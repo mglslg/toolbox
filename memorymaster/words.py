@@ -130,7 +130,7 @@ def start(args=None):
             print(t)
 
             input_word = input('还需输入' + str(n - i + 1) + '次:').strip()
-            if input_word == 'fuck':
+            if input_word == 'fuck' or input_word == '?':
                 os.system('clear')
                 pt = PrettyTable(["单词", "音标"])
                 pt.add_row([x.key, x.voice])
