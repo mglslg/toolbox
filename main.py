@@ -24,8 +24,6 @@ if __name__ == '__main__':
         elif select_menu == '2':
             words.main()
         elif select_menu == '3':
-            w = input("请输入单词:")
-            rs = translator.translate(w)
-            print(rs)
+            translator.main()
         else:
             print('请选择正确的菜单!')

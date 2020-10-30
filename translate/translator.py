@@ -53,21 +53,31 @@ def trans_to_list(__word):
         return __word, __voice, __eg
 
 
+def trans_to_format(word):
+    __rs = trans_to_list(word)
+    if len(__rs[0]) == 0:
+        return None
+    word = '\n'.join(__rs[0])
+    voice = '\n'.join(__rs[1])
+    eg = '\n'.join(__rs[2])
+    table = PrettyTable(['单词', '音标'])
+    table.add_row([word, voice])
+    return table, eg
+
+
+def main():
+    while True:
+        w = input("请输入单词:")
+        if w == 'quit' or w == 'exit':
+            return
+        __rs = trans_to_format(w)
+        if not __rs:
+            print('查无此词!')
+        else:
+            print(__rs[0])
+            print(__rs[1])
+
+
 if __name__ == '__main__':
-    rs = trans_to_list('abandon')
-    if len(rs) != 0:
-        word = '\n'.join(rs[0])
-        voice = '\n'.join(rs[1])
-        eg = '\n'.join(rs[2])
-        table = PrettyTable(['单词', '音标', '例句'])
-        table.add_row([word, voice, eg])
-        print(table)
-    # if len(rs) != 0:
-    #     word = '\n'.join(textwrap.wrap(str(rs[0]).replace("'", "\""), 6))
-    #     print('\n'.join(textwrap.wrap("adfsdfsdfsdfsdf", 12)))
-    #     voice = rs[1]
-    #     eg = rs[2]
-    #     table = PrettyTable(['单词', '音标', '例句'])
-    #     table.add_row([word, voice, 'abc'])
-    #     # print(table)
-    #     print(':'.join(['1', '2', '3']))
+    rs = trans_to_format("good")
+    print(rs)
