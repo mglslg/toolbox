@@ -114,7 +114,7 @@ def refresh(args=None):
 
 
 def start(args=None):
-    num_str = '10'
+    num_str = '5'
     if args:
         num_str = cl.format_args(args)[2]
 
@@ -144,10 +144,14 @@ def start(args=None):
                 print(pt)
                 i = 1
                 continue
+            if input_word == '/pass':
+                os.system('clear')
+                do_pass(x)
+                break
             if input_word == '/q' or input_word == '/quit':
                 return
             if x.key == input_word:
-                # TERM=xterm-color
+                # TERM=xterm-colorq
                 os.system('clear')
                 i = i + 1
                 if i == n:
