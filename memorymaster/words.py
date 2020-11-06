@@ -114,20 +114,21 @@ def refresh(args=None):
 
 
 def start(args=None):
-    num_str = '5'
+    num_str = '6'
     if args:
         num_str = cl.format_args(args)[2]
 
     # 注意这里peewee的逻辑操作符只有【& | == ~ 】,什么is not之类都不能用！
-    curr_words = EnDict.select().where((EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now()))
+    curr_words = EnDict.select().where((EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now())).order_by(EnDict.show_time.asc())
 
     for x in curr_words:
         i = 1
         n = int(num_str)
         while i <= n:
-            t = PrettyTable(["单词", "例句"])
-            t.add_row(['\n' + x.content, get_exp(i, x.key, x.example)])
-            print(t)
+            t1 = PrettyTable(["单词"])
+            t1.add_row([x.content])
+            print(t1)
+            print(get_exp(i, x.key, x.example))
 
             input_word = input('还需输入' + str(n - i + 1) + '次:').strip()
             if input_word == 'fuck' or input_word == '?':
@@ -168,7 +169,7 @@ def get_exp(count, word, examples):
     exp_array = json.loads(examples)
     length = len(exp_array)
     if length > 0:
-        return str(exp_array[count % length]).replace(word, "(?)")
+        return str(exp_array[count % length]).replace(word, "(?)")[2:]
 
 
 def do_pass(old):
