@@ -42,31 +42,46 @@ def add(args=None):
     if not args:
         add_from_input()
     else:
-        rs = cl.format_args(args)
-        word = rs[2]
+        cl_rs = cl.format_args(args)
+        word = cl_rs[0]
         if not word:
             print('参数格式有误')
+        elif cl_rs[1]:
+            options = cl_rs[1]
+            custom_eg = None
+            eg_tag = None
+            if '-e' in options:
+                custom_eg = input('请输入例句:')
+            if '-t' in options:
+                eg_tag = input('请输入标签:')
+            save_word(word, custom_eg, eg_tag)
         else:
-            word = word.strip()
-            if EnDict.get_or_none(key=word) is not None:
-                print("当前单词已存在")
-                return
+            save_word(word)
 
-            rs = translator.translate(word)
-            cn = rs[0]
-            voice = rs[1]
-            example = rs[2]
-            if len(cn) == 0:
-                print("单词拼写错误")
-                return
 
-            print(cn)
-            print(voice)
-            print(example)
+def save_word(word, custom_eg=None, eg_tag=None):
+    word = word.strip()
+    if EnDict.get_or_none(key=word) is not None:
+        print("当前单词已存在")
+        return
 
-            now = datetime.datetime.now()
-            dao = EnDict.create(key=word, content=cn, create_time=now, show_time=now, voice=voice, example=example)
-            dao.save()
+    rs = translator.translate(word)
+    if rs:
+        cn = rs[0]
+        voice = rs[1]
+        example = rs[2]
+        if len(cn) == 0:
+            print("单词拼写错误")
+            return
+
+        print(cn)
+        print(voice)
+        print(example)
+
+        now = datetime.datetime.now()
+        dao = EnDict.create(key=word, content=cn, create_time=now, show_time=now, voice=voice, example=example,
+                            custom_eg=custom_eg, eg_tag=eg_tag)
+        dao.save()
 
 
 def ls(args=None):
@@ -75,7 +90,7 @@ def ls(args=None):
         for e in rs:
             print(e.key, e.content, e.voice)
     else:
-        rs = EnDict.select().where(EnDict.key == cl.format_args(args)[2])
+        rs = EnDict.select().where(EnDict.key == cl.format_args(args)[0])
         for e in rs:
             print(e.key, e.content, e.voice)
 
@@ -84,7 +99,7 @@ def remove(args=None):
     if not args:
         print('请输入要删除的单词')
     else:
-        EnDict.delete().where(EnDict.key == cl.format_args(args)[2]).execute()
+        EnDict.delete().where(EnDict.key == cl.format_args(args)[0]).execute()
 
 
 def refresh(args=None):
@@ -100,7 +115,7 @@ def refresh(args=None):
             EnDict.update(new).where(EnDict.key == curr_word).execute()
             print("更新", curr_word)
     else:
-        key = cl.format_args(args)[2]
+        key = cl.format_args(args)[0]
         curr_data = EnDict.get_or_none(key=key)
         if curr_data is None:
             print("不存在当前单词")
@@ -116,10 +131,11 @@ def refresh(args=None):
 def start(args=None):
     num_str = '6'
     if args:
-        num_str = cl.format_args(args)[2]
+        num_str = cl.format_args(args)[0]
 
     # 注意这里peewee的逻辑操作符只有【& | == ~ 】,什么is not之类都不能用！
-    curr_words = EnDict.select().where((EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now())).order_by(EnDict.show_time.asc())
+    curr_words = EnDict.select().where(
+        (EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now())).order_by(EnDict.show_time.asc())
 
     for x in curr_words:
         i = 1
@@ -172,6 +188,20 @@ def get_exp(count, word, examples):
         return str(exp_array[count % length]).replace(word, "(?)")[2:]
 
 
+def translate_word(word):
+    __rs = translator.trans_to_format(word)
+    if not __rs:
+        print('查无此词!')
+    else:
+        print(__rs[0])
+        print(__rs[1])
+        answer = input('是否添加当前单词?(y/n)')
+        if answer == 'y':
+            add(word)
+        else:
+            return
+
+
 def do_pass(old):
     now = datetime.datetime.now()
     old_count = int(old.pass_count)
@@ -208,7 +238,8 @@ def main():
         'ls': ls,
         'start': start,
         'refresh': refresh,
-        'rm': remove
+        'rm': remove,
+        '?': translate_word
     }
     cl.run(cmd_mapping)
 

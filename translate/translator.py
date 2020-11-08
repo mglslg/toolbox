@@ -40,8 +40,11 @@ def translate(word):
             if exp.__len__() > 4:
                 break
 
-    return json.dumps(result, ensure_ascii=False), json.dumps(voice, ensure_ascii=False), json.dumps(exp,
-                                                                                                     ensure_ascii=False)
+    if len(result) > 0:
+        return json.dumps(result, ensure_ascii=False), json.dumps(voice, ensure_ascii=False), json.dumps(exp,
+                                                                                                         ensure_ascii=False)
+    else:
+        return [], [], []
 
 
 def trans_to_list(__word):

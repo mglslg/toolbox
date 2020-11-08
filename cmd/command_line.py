@@ -2,26 +2,50 @@ import re
 
 
 def format_args(args):
-    unix98_options = []
-    gnu_options = []
-    param_list = []
-    for x in args:
-        if '--' in x and re.search('[A-Za-z0-9]+', x):
-            gnu_options.append(x)
-        elif '-' in x and re.search('[A-Za-z0-9]+', x):
-            unix98_options.append(x)
+    main_param = ''  # 参数
+    unix98_param = {}  # -参数
+    gnu_param = {}  # --参数
+    if len(args) == 0:
+        print('empty param !')
+        return
+    first_param = args[0]
+    if param_style(first_param) == 'normal':
+        # 有主参数,从主参数的下一个参数开始配对
+        main_param = first_param
+        set_param_mapping(args, 1, unix98_param, gnu_param)
+    else:
+        # 没有主参数,直接进行参数配对
+        set_param_mapping(args, 0, unix98_param, gnu_param)
+
+    # 参数, -参数, --参数
+    return main_param, unix98_param, gnu_param
+
+
+# 将参数整理为('--edit','some word')的形式
+def set_param_mapping(args, start_idx, unix98_param, gnu_param):
+    for i in range(start_idx, len(args)):
+        if param_style(args[i]) == '-':
+            if i + 1 < len(args) and param_style(args[i + 1]) == 'normal':
+                unix98_param[args[i]] = args[i + 1]
+            else:
+                unix98_param[args[i]] = None
+        elif param_style(args[i]) == '--':
+            if i + 1 < len(args) and param_style(args[i + 1]) == 'normal':
+                gnu_param[args[i]] = args[i + 1]
+            else:
+                gnu_param[args[i]] = None
         else:
-            param_list.append(x)
-    u98 = unix98_options
-    gnu = gnu_options
-    arg = param_list
-    if len(unix98_options) == 1:
-        u98 = unix98_options[0]
-    if len(gnu_options) == 1:
-        gnu = gnu_options[0]
-    if len(param_list) == 1:
-        arg = param_list[0]
-    return u98, gnu, arg
+            # 如果没有横杠参数就继续循环,因此就算连着出现多个normal参数也没关系,只有第一个是生效的
+            continue
+
+
+def param_style(param):
+    if '--' in param and re.search('[A-Za-z0-9]+', param):
+        return '--'
+    elif '-' in param and re.search('[A-Za-z0-9]+', param):
+        return '-'
+    else:
+        return 'normal'
 
 
 def run(cmd_fn, prompt='>>>'):
@@ -31,6 +55,8 @@ def run(cmd_fn, prompt='>>>'):
 
     while True:
         user_input = input(prompt)
+
+        # todo 这里不能简单的split,需要做改造能够读出单引号或双引号中的内容才行
         args = user_input.split()
 
         if not args:
@@ -50,35 +76,8 @@ def run(cmd_fn, prompt='>>>'):
             print('command not found: ' + user_input)
 
 
-def test1():
-    print('test1')
-
-
-def test2(param1, param2, param3):
-    print('test2')
-
-
 if __name__ == '__main__':
-    print(len('abc'))
-    rs = format_args(['-w', '--abc', '--5', 'a', 'sdf', '-', '--'])
-    rs = format_args(['-w', '--abc', '--5', 'a'])
+    rs = format_args(['-taste', '--abc', 'sdfsf', 'a', '-d', 'lalala', '-c'])
     print(rs[0])
     print(rs[1])
     print(rs[2])
-
-if __name__ == '__main__1':
-    while True:
-        print("欢迎来到嘎子的工具箱")
-        print('1. lalalala')
-        print('2. heiheiheihei')
-        select_menu = input("请选择菜单:")
-        if select_menu == '1':
-            cmd_mapping = {
-                'test': test1
-            }
-            run(cmd_mapping)
-        else:
-            cmd_mapping = {
-                'test': test2
-            }
-            run(cmd_mapping)

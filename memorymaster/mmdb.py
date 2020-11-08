@@ -12,7 +12,8 @@ vps_database = MySQLDatabase('memory_master',
 
 class BaseModel(Model):
     class Meta:
-        database = vps_database
+        # database = vps_database
+        database = database
 
 
 class EnDict(BaseModel):
@@ -25,6 +26,9 @@ class EnDict(BaseModel):
     pass_count = IntegerField(null=True)
     voice = CharField(null=True)
     example = CharField(null=True)
+    custom_eg = CharField(null=True)
+    eg_tag = CharField(null=True)
+    comment = CharField(null=True)
 
     class Meta:
         table_name = 'en_dict'
