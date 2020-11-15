@@ -51,15 +51,52 @@ def add(args=None):
             custom_eg = None
             eg_tag = None
             if '-e' in options:
-                custom_eg = input('请输入例句:')
+                custom_eg_en = input('请输入例句:')
+                custom_eg_cn = input('请输入翻译:')
+                if custom_eg_en.strip() == '' and custom_eg_cn.strip() == '':
+                    custom_eg = None
+                else:
+                    custom_eg = custom_eg_en + '\n' + custom_eg_cn
             if '-t' in options:
                 eg_tag = input('请输入标签:')
-            save_word(word, custom_eg, eg_tag)
+                if eg_tag.strip() == '':
+                    eg_tag = None
+            add_word(word, custom_eg, eg_tag)
         else:
-            save_word(word)
+            add_word(word)
 
 
-def save_word(word, custom_eg=None, eg_tag=None):
+def edit(args):
+    cl_rs = cl.format_args(args)
+    word = cl_rs[0]
+    options = cl_rs[1]
+    if not word:
+        print('参数格式有误,缺少单词!')
+        return
+    if not options:
+        print('参数格式有误,缺少编辑选项!')
+        return
+    word_obj = EnDict.get_or_none(key=word)
+    if not word_obj:
+        print('单词尚不存在,请先添加!')
+        return
+    custom_eg = word_obj.custom_eg
+    eg_tag = word_obj.eg_tag
+    if '-e' in options:
+        custom_eg_en = input('请输入例句:')
+        custom_eg_cn = input('请输入翻译:')
+        if custom_eg_en.strip() == '' and custom_eg_cn.strip() == '':
+            custom_eg = None
+        else:
+            custom_eg = custom_eg_en + '\n' + custom_eg_cn
+    if '-t' in options:
+        eg_tag = input('请输入标签:')
+        if eg_tag.strip() == '':
+            eg_tag = None
+    EnDict.update(custom_eg=custom_eg, eg_tag=eg_tag).where(EnDict.key == word).execute()
+
+
+def add_word(word, custom_eg=None, eg_tag=None):
     word = word.strip()
     if EnDict.get_or_none(key=word) is not None:
         print("当前单词已存在")
@@ -92,7 +129,12 @@ def ls(args=None):
     else:
         rs = EnDict.select().where(EnDict.key == cl.format_args(args)[0])
         for e in rs:
-            print(e.key, e.content, e.voice)
+            print(e.key, e.content, e.voice, '\n')
+            exp_array = json.loads(e.example)
+            for x in exp_array:
+                print(str(x)[2:])
+            if e.custom_eg:
+                print(e.custom_eg, "————《" + e.eg_tag + "》\n")
 
 
 def remove(args=None):
@@ -145,6 +187,8 @@ def start(args=None):
             t1.add_row([x.content])
             print(t1)
             print(get_exp(i, x.key, x.example))
+            if x.custom_eg:
+                print(x.custom_eg.replace(x.key, "(?)"), "————《" + x.eg_tag + "》\n")
 
             input_word = input('还需输入' + str(n - i + 1) + '次:').strip()
             if input_word == 'fuck' or input_word == '?':
@@ -235,6 +279,7 @@ def do_pass(old):
 def main():
     cmd_mapping = {
         'add': add,
+        'edit': edit,
         'ls': ls,
         'start': start,
         'refresh': refresh,
