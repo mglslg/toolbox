@@ -184,7 +184,7 @@ def start(args=None):
         n = int(num_str)
         while i <= n:
             t1 = PrettyTable(["单词"])
-            t1.add_row([x.content])
+            t1.add_row([str([x.content]).replace(x.key.title(), "???")])
             print(t1)
             print(get_exp(i, x.key, x.example))
             if x.custom_eg:
@@ -229,7 +229,26 @@ def get_exp(count, word, examples):
     exp_array = json.loads(examples)
     length = len(exp_array)
     if length > 0:
-        return str(exp_array[count % length]).replace(word, "(?)")[2:]
+        mask = str(exp_array[count % length]).replace(word, "(?)")[2:]
+        if mask.find("(?)") == -1:
+            most_like = find_most_like(mask, word)
+            return mask.replace(most_like, "(?)")
+        return mask
+
+
+def find_most_like(sentence, target):
+    max_length = 0
+    most_like = ''
+    word_array = sentence.split()
+    for word in word_array:
+        length = 0
+        for i, v in enumerate(word):
+            if i < len(target) and target[i].lower() == word[i].lower():
+                length = length + 1
+        if length > max_length:
+            max_length = length
+            most_like = word
+    return most_like
 
 
 def translate_word(word):
@@ -257,12 +276,14 @@ def do_pass(old):
     elif old_count == 1:
         show_time = now + datetime.timedelta(days=1)
     elif old_count == 2:
-        show_time = now + datetime.timedelta(days=3)
+        show_time = now + datetime.timedelta(days=1)
     elif old_count == 3:
-        show_time = now + datetime.timedelta(days=5)
+        show_time = now + datetime.timedelta(days=3)
     elif old_count == 4:
-        show_time = now + datetime.timedelta(days=10)
+        show_time = now + datetime.timedelta(days=5)
     elif old_count == 5:
+        show_time = now + datetime.timedelta(days=10)
+    elif old_count == 6:
         show_time = now + datetime.timedelta(days=30)
     else:
         is_open = False
@@ -291,3 +312,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # word = find_most_like('I have a dream', 'ha')
+    # print(word)
