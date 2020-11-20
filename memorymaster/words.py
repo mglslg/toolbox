@@ -182,6 +182,7 @@ def start(args=None):
     for x in curr_words:
         i = 1
         n = int(num_str)
+        can_pass = True
         while i <= n:
             t1 = PrettyTable(["单词"])
             t1.add_row([str([x.content]).replace(x.key.title(), "???")])
@@ -197,6 +198,7 @@ def start(args=None):
                 pt.add_row([x.key, x.voice])
                 print(pt)
                 i = 1
+                can_pass = False
                 continue
             if input_word == '/voice':
                 os.system('clear')
@@ -207,7 +209,7 @@ def start(args=None):
                 continue
             if input_word == '/pass':
                 os.system('clear')
-                do_pass(x)
+                do_pass(x, can_pass)
                 break
             if input_word == '/q' or input_word == '/quit':
                 return
@@ -216,7 +218,7 @@ def start(args=None):
                 os.system('clear')
                 i = i + 1
                 if i == n:
-                    do_pass(x)
+                    do_pass(x, can_pass)
                 continue
             else:
                 print('单词拼写错误,大侠请重新来过!\n\n')
@@ -265,7 +267,9 @@ def translate_word(word):
             return
 
 
-def do_pass(old):
+def do_pass(old, can_pass):
+    if not can_pass:
+        return
     now = datetime.datetime.now()
     old_count = int(old.pass_count)
     is_open = True
@@ -276,13 +280,13 @@ def do_pass(old):
     elif old_count == 1:
         show_time = now + datetime.timedelta(days=1)
     elif old_count == 2:
-        show_time = now + datetime.timedelta(days=1)
-    elif old_count == 3:
         show_time = now + datetime.timedelta(days=3)
-    elif old_count == 4:
+    elif old_count == 3:
         show_time = now + datetime.timedelta(days=5)
-    elif old_count == 5:
+    elif old_count == 4:
         show_time = now + datetime.timedelta(days=10)
+    elif old_count == 5:
+        show_time = now + datetime.timedelta(days=15)
     elif old_count == 6:
         show_time = now + datetime.timedelta(days=30)
     else:
