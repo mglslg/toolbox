@@ -1,0 +1,43 @@
+db.userBaseInfo.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.userProfessionInfo.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.finalAuditInfo.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.gdrInfo.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.loanRequireInfo.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.preMortgageHouse.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+db.warrant.update(
+	{'loanId':{$in:['2020091417235000002']}},
+	{$set:{'loanId':'23333'}},
+	{multi:true,upsert:false}
+);
+
+update `fyd_loan_file` set loan_id='23333' where loan_id='2020091417235000002';
+update `fyd_loan_apply` set loan_id='23333' where loan_id='2020091417235000002';
+update `soeasy_business`.`bid` set loan_id='23333' where loan_id='2020091417235000002';
+
+
+
+
