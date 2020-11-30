@@ -1,10 +1,10 @@
 import os
-from translate import translator
+import translator
 import datetime
-from mmdb import EnDict
+from mm_db import EnDict
 import json
 from prettytable import PrettyTable
-from cmd import command_line as cl
+import cmd_launcher as cl
 
 
 def add_from_input():

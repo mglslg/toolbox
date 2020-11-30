@@ -5,9 +5,9 @@ sys.path.append("/Users/suolongga/PycharmProjects/toolbox/memorymaster")
 sys.path.append("/Users/slg/PyProj/toolbox/memorymaster")
 # print("python搜索模块的路径集合", sys.path)
 
-from cltable import *
-from memorymaster import *
-from translate import *
+import cltable_divide
+import mm_word
+import translator
 
 if __name__ == '__main__':
     while True:
@@ -20,9 +20,9 @@ if __name__ == '__main__':
             break
         if select_menu == '1':
             title = input("请输入标题:")
-            dividing_line.print_title(title)
+            cltable_divide.print_title(title)
         elif select_menu == '2':
-            words.main()
+            mm_word.main()
         elif select_menu == '3':
             translator.main()
         else:
