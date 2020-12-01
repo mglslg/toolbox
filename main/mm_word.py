@@ -2,9 +2,14 @@ import os
 import translator
 import datetime
 from mm_db import EnDict
+from mm_db import SysUser
 import json
 from prettytable import PrettyTable
 import cmd_launcher as cl
+import hashlib
+import cltable_divide as cltable
+
+curr_user = ''
 
 
 def add_from_input():
@@ -171,6 +176,8 @@ def refresh(args=None):
 
 
 def start(args=None):
+    print('lalala:'+curr_user)
+
     num_str = '6'
     if args:
         num_str = cl.format_args(args)[0]
@@ -302,6 +309,19 @@ def do_pass(old, can_pass):
 
 
 def main():
+    username = input("请输入用户名:")
+    password = input("请输入密码:")
+    if SysUser.get_or_none(username=username) is None:
+        cltable.print_title("当前用户不存在!")
+        return
+    else:
+        pwd = SysUser.get_or_none(username=username).password
+        if hashlib.md5(password.encode(encoding='UTF-8')).hexdigest() != pwd:
+            cltable.print_title("用户名密码不正确!")
+            return
+
+    curr_user = username
+
     cmd_mapping = {
         'add': add,
         'edit': edit,
@@ -315,6 +335,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    user = SysUser.get_or_none(username='s')
+    print(user)
+    # user = SysUser.select()
+
+    # print(user)
+    # pwd = hashlib.md5(b'111111').hexdigest()
+    # print(pwd)
     # word = find_most_like('I have a dream', 'ha')
     # print(word)

@@ -32,3 +32,11 @@ class EnDict(BaseModel):
 
     class Meta:
         table_name = 'en_dict'
+
+
+class SysUser(BaseModel):
+    username = CharField(primary_key=True)
+    password = CharField(null=True)
+
+    class Meta:
+        table_name = 'sys_user'
