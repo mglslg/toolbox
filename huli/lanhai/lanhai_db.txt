@@ -1,41 +1,41 @@
 db.userBaseInfo.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 db.userProfessionInfo.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 db.finalAuditInfo.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 db.gdrInfo.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 db.loanRequireInfo.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003','lhBUSITYPE':''}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006','lhBUSITYPE':''}},
 	{multi:true,upsert:false}
 );
 db.preMortgageHouse.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 db.warrant.update(
-	{'loanId':{$in:['2020091417235000002']}},
-	{$set:{'loanId':'2020091417235000003'}},
+	{'loanId':{$in:['2020091417235000005']}},
+	{$set:{'loanId':'2020091417235000006'}},
 	{multi:true,upsert:false}
 );
 
-update `fyd_loan_file` set loan_id='2020091417235000003' where loan_id='2020091417235000002';
-update `fyd_loan_apply` set loan_id='2020091417235000003' where loan_id='2020091417235000002';
+update `fyd_loan_file` set loan_id='2020091417235000006' where loan_id='2020091417235000005';
+update `fyd_loan_apply` set loan_id='2020091417235000006' where loan_id='2020091417235000005';
 
 
 

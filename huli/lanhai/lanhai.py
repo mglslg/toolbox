@@ -36,4 +36,4 @@ def change_txt(newId):
 
 
 if __name__ == '__main__':
-    change_txt("2020091417235000003")
+    change_txt("2020091417235000006")
