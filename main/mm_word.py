@@ -176,8 +176,6 @@ def refresh(args=None):
 
 
 def start(args=None):
-    print('lalala:'+curr_user)
-
     num_str = '6'
     if args:
         num_str = cl.format_args(args)[0]
