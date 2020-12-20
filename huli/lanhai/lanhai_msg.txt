@@ -2,7 +2,7 @@
   "data": {
     "CONFIRMSTATUS": "01",
     "CONFIRMSTATUSVAL": "01",
-    "LOANID": "2020091417235000006",
+    "LOANID": "202012081701570002",
     "asset": {
       "mortgageHouseCityId": 120000,
       "originalAssetMode": 0,
@@ -28,7 +28,7 @@
       "fundChannel": 21,
       "isHide": 0,
       "assignee": "",
-      "fkLoanId": "2020091417235000006",
+      "fkLoanId": "202012081701570002",
       "status": 8,
       "riskLevel": 0,
       "loanType": 50,
@@ -129,7 +129,7 @@
     "assetId": "2010478",
     "cONFIRMSTATUS": "01",
     "cONFIRMSTATUSVAL": "01",
-    "lOANID": "2020091417235000006",
+    "lOANID": "202012081701570002",
     "sendTime": "2020-11-25 08:40:47"
   },
   "msgType": "CONFIRM_ASSET"
