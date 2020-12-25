@@ -29,6 +29,7 @@ class EnDict(BaseModel):
     custom_eg = CharField(null=True)
     eg_tag = CharField(null=True)
     comment = CharField(null=True)
+    username = CharField(null=True)
 
     class Meta:
         table_name = 'en_dict'

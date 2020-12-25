@@ -9,7 +9,7 @@ import cmd_launcher as cl
 import hashlib
 import cltable_divide as cltable
 
-curr_user = ''
+_curr_user = ''
 
 
 def add_from_input():
@@ -18,7 +18,7 @@ def add_from_input():
         if en == '/q' or en == '/quit':
             break
 
-        if EnDict.get_or_none(key=en) is not None:
+        if EnDict.get_or_none(key=en, username=_curr_user) is not None:
             print("当前单词已存在")
             continue
 
@@ -30,14 +30,14 @@ def add_from_input():
             print("单词拼写错误")
             continue
 
-        word = EnDict.get_or_none(key=en)
+        word = EnDict.get_or_none(key=en, username=_curr_user)
 
         if word is None:
             print(cn)
             print(voice)
             print(example)
             dao = EnDict.create(key=en, content=cn, create_time=datetime.datetime.now(),
-                                show_time=datetime.datetime.now(), voice=voice, example=example)
+                                show_time=datetime.datetime.now(), voice=voice, example=example, username=_curr_user)
             dao.save()
         else:
             print("当前单词已存在")
@@ -81,7 +81,7 @@ def edit(args):
     if not options:
         print('参数格式有误,缺少编辑选项!')
         return
-    word_obj = EnDict.get_or_none(key=word)
+    word_obj = EnDict.get_or_none(key=word, username=_curr_user)
     if not word_obj:
         print('单词尚不存在,请先添加!')
         return
@@ -98,12 +98,13 @@ def edit(args):
         eg_tag = input('请输入标签:')
         if eg_tag.strip() == '':
             eg_tag = None
-    EnDict.update(custom_eg=custom_eg, eg_tag=eg_tag).where(EnDict.key == word).execute()
+    EnDict.update(custom_eg=custom_eg, eg_tag=eg_tag).where(
+        (EnDict.key == word) & (EnDict.username == _curr_user)).execute()
 
 
 def add_word(word, custom_eg=None, eg_tag=None):
     word = word.strip()
-    if EnDict.get_or_none(key=word) is not None:
+    if EnDict.get_or_none(key=word, username=_curr_user) is not None:
         print("当前单词已存在")
         return
 
@@ -122,17 +123,17 @@ def add_word(word, custom_eg=None, eg_tag=None):
 
         now = datetime.datetime.now()
         dao = EnDict.create(key=word, content=cn, create_time=now, show_time=now, voice=voice, example=example,
-                            custom_eg=custom_eg, eg_tag=eg_tag)
+                            custom_eg=custom_eg, eg_tag=eg_tag, username=_curr_user)
         dao.save()
 
 
 def ls(args=None):
     if args is None:
-        rs = EnDict.select()
+        rs = EnDict.select().where(EnDict.username == _curr_user)
         for e in rs:
             print(e.key, e.content, e.voice)
     else:
-        rs = EnDict.select().where(EnDict.key == cl.format_args(args)[0])
+        rs = EnDict.select().where((EnDict.key == cl.format_args(args)[0]) & (EnDict.username == _curr_user))
         for e in rs:
             print(e.key, e.content, e.voice, '\n')
             exp_array = json.loads(e.example)
@@ -146,7 +147,7 @@ def remove(args=None):
     if not args:
         print('请输入要删除的单词')
     else:
-        EnDict.delete().where(EnDict.key == cl.format_args(args)[0]).execute()
+        EnDict.delete().where((EnDict.key == cl.format_args(args)[0]) & (EnDict.username == _curr_user)).execute()
 
 
 def refresh(args=None):
@@ -159,11 +160,11 @@ def refresh(args=None):
                    'voice': tran[1],
                    'example': tran[2]
                    }
-            EnDict.update(new).where(EnDict.key == curr_word).execute()
+            EnDict.update(new).where((EnDict.key == curr_word) & (EnDict.username == _curr_user)).execute()
             print("更新", curr_word)
     else:
         key = cl.format_args(args)[0]
-        curr_data = EnDict.get_or_none(key=key)
+        curr_data = EnDict.get_or_none(key=key, username=_curr_user)
         if curr_data is None:
             print("不存在当前单词")
         else:
@@ -172,19 +173,18 @@ def refresh(args=None):
                    'voice': tran[1],
                    'example': tran[2]
                    }
-            EnDict.update(new).where(EnDict.key == key).execute()
+            EnDict.update(new).where((EnDict.key == key) & (EnDict.username == _curr_user)).execute()
 
 
 def start(args=None):
-    print('lalala:'+curr_user)
-
     num_str = '6'
     if args:
         num_str = cl.format_args(args)[0]
 
     # 注意这里peewee的逻辑操作符只有【& | == ~ 】,什么is not之类都不能用！
     curr_words = EnDict.select().where(
-        (EnDict.is_open == True) & (EnDict.show_time < datetime.datetime.now())).order_by(EnDict.show_time.asc())
+        (EnDict.is_open == True) & (EnDict.username == _curr_user) & (
+                EnDict.show_time < datetime.datetime.now())).order_by(EnDict.show_time.asc())
 
     for x in curr_words:
         i = 1
@@ -305,7 +305,7 @@ def do_pass(old, can_pass):
            'pass_count': old_count + 1
            }
 
-    EnDict.update(new).where(EnDict.key == old.key).execute()
+    EnDict.update(new).where((EnDict.key == old.key) & (EnDict.username == _curr_user)).execute()
 
 
 def main():
@@ -320,7 +320,8 @@ def main():
             cltable.print_title("用户名密码不正确!")
             return
 
-    curr_user = username
+    global _curr_user
+    _curr_user = username
 
     cmd_mapping = {
         'add': add,
