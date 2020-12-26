@@ -4,16 +4,16 @@ database = MySQLDatabase('memory_master',
                          **{'charset': 'utf8', 'sql_mode': 'PIPES_AS_CONCAT', 'use_unicode': True, 'host': '127.0.0.1',
                             'port': 3306, 'user': 'slg', 'password': 'enter'})
 
-vps_database = MySQLDatabase('memory_master',
+tx_database = MySQLDatabase('memory_master',
                              **{'charset': 'utf8', 'sql_mode': 'PIPES_AS_CONCAT', 'use_unicode': True,
-                                'host': '104.168.137.244',
+                                'host': '81.70.172.33',
                                 'port': 3306, 'user': 'slg', 'password': 'enter'})
 
 
 class BaseModel(Model):
     class Meta:
-        # database = vps_database
-        database = database
+        database = tx_database
+        #database = database
 
 
 class EnDict(BaseModel):
