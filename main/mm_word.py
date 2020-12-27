@@ -336,8 +336,7 @@ def main():
 
 
 if __name__ == '__main__':
-    user = SysUser.get_or_none(username='s')
-    print(user)
+    print('lalala')
     # user = SysUser.select()
 
     # print(user)
