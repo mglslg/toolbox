@@ -244,7 +244,7 @@ def get_exp(count, word, examples):
             return mask.replace(most_like, "(?)")
         return mask
 
-
+# 这里使用biology做一下测试
 def find_most_like(sentence, target):
     max_length = 0
     most_like = ''

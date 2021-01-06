@@ -1,41 +1,41 @@
 db.userBaseInfo.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 db.userProfessionInfo.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 db.finalAuditInfo.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 db.gdrInfo.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 db.loanRequireInfo.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004','lhBUSITYPE':''}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002','lhBUSITYPE':''}},
 	{multi:true,upsert:false}
 );
 db.preMortgageHouse.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 db.warrant.update(
-	{'loanId':{$in:['202012081701570002']}},
-	{$set:{'loanId':'202012081701570004'}},
+	{'loanId':{$in:['202012071436300001']}},
+	{$set:{'loanId':'202012071436300002'}},
 	{multi:true,upsert:false}
 );
 
-update `fyd_loan_file` set loan_id='202012081701570004' where loan_id='202012081701570002';
-update `fyd_loan_apply` set loan_id='202012081701570004' where loan_id='202012081701570002';
+update `fyd_loan_file` set loan_id='202012071436300002' where loan_id='202012071436300001';
+update `fyd_loan_apply` set loan_id='202012071436300002' where loan_id='202012071436300001';
 
 
 
