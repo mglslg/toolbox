@@ -42,14 +42,21 @@ def update_warrant_place(code):
     print(mongo)
 
 
+# 设置任务为已办
+def set_task_done():
+    sql = "UPDATE `soeasy_assets_rule`.`assets_user_task_info` SET t.task_status = 3, t.decision = 'data_clean' WHERE task_id in (" + id_with_quot() + ")"
+    print(sql)
+
+
 if __name__ == '__main__':
     # 删除废弃档案
-    #delete_warrant()
+    # delete_warrant()
 
     # 修改档案保管地
-    #update_warrant_place('320300')
+    # update_warrant_place('510101')
 
     # 修改为403已出库
-    update_warrant_status('403')
+    # update_warrant_status('403')
 
-
+    # 将废弃任务设置为已办
+    set_task_done()
