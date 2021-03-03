@@ -52,11 +52,11 @@ if __name__ == '__main__':
     # 删除废弃档案
     # delete_warrant()
 
-    # 修改档案保管地
-    # update_warrant_place('510101')
+    # 修改档案保管地 西安
+    update_warrant_place('610100')
 
     # 修改为403已出库
     # update_warrant_status('403')
 
     # 将废弃任务设置为已办
-    set_task_done()
+    # set_task_done()
